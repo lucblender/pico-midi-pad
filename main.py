@@ -15,9 +15,14 @@ col_list = [0,0,0,0,0,0]
 row_list = [0,0,0,0,0,0,0,0]
 
 uart = machine.UART(0,baudrate=31250,tx=Pin(0),rx=Pin(1))
-led_uart = Pin(28,machine.Pin.OUT)
-led_a = Pin("LED",machine.Pin.OUT)
-led_b = Pin(22,machine.Pin.OUT)
+led_uart = Pin(28, Pin.OUT)
+led_a = Pin("LED", Pin.OUT)
+led_b = Pin(22, Pin.OUT)
+
+enc_midi_0 = Pin(2, Pin.IN, Pin.PULL_UP)
+enc_midi_1 = Pin(3, Pin.IN, Pin.PULL_UP)
+enc_midi_2 = Pin(4, Pin.IN, Pin.PULL_UP)
+enc_midi_3 = Pin(5, Pin.IN, Pin.PULL_UP)
 
 led_a.value(1)
 led_b.value(1)
@@ -59,6 +64,7 @@ key_map= [
 ]
 
 note_map=[
+            # first patch for volca drum
             [[MidiNote(49,64,1) ,MidiNote(49,64,3),MidiNote(49,127,7),MidiNote(49,64,6),MidiNote(49,64,5),MidiNote(49,127,7)],
             [MidiNote(49,127,1) ,MidiNote(49,127,3),MidiNote(49,127,7),MidiNote(49,127,6),MidiNote(49,127,5),MidiNote(49,127,7)],
             [MidiNote(49,16,1) ,MidiNote(49,16,3),MidiNote(49,127,7),MidiNote(49,16,6),MidiNote(49,16,5),MidiNote(49,127,7)],
@@ -68,32 +74,33 @@ note_map=[
             [MidiNote(49,32,2) ,MidiNote(49,32,4),MidiNote(49,127,7),MidiNote(49,127,7),MidiNote(49,127,7),MidiNote(49,127,7)],
             [MidiNote(49,16,2) ,MidiNote(49,16,4),MidiNote(49,127,7),MidiNote(49,127,7),MidiNote(49,127,7),MidiNote(49,127,7)]],
             
-            [[MidiNote(49,127,1) ,MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1)],
-            [MidiNote(49,127,1) ,MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1)],
-            [MidiNote(49,127,1) ,MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1)],
-            [MidiNote(49,127,1) ,MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1)],
-            [MidiNote(49,127,1) ,MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1)],
-            [MidiNote(49,127,1) ,MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1)],
-            [MidiNote(49,127,1) ,MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1)],
-            [MidiNote(49,127,1) ,MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1)]],
+            #second patch for drum brut note from 36 to 45 for normal and from 48 to 57 (54 doesn't exist, cowbell only has one mode)
+            [[MidiNote(36,127,-1) ,MidiNote(38,127,-1),MidiNote(49,0,-1),MidiNote(39,127,-1),MidiNote(45,127,-1),MidiNote(42,127,-1)],
+            [MidiNote(48,127,-1) ,MidiNote(50,127,-1),MidiNote(49,0,-1),MidiNote(51,127,-1),MidiNote(57,127,-1),MidiNote(42,  1,-1)],
+            [MidiNote(36,  1,-1) ,MidiNote(38,  1,-1),MidiNote(49,0,-1),MidiNote(39,  1,-1),MidiNote(45,  1,-1),MidiNote(49,127,-1)],
+            [MidiNote(48,  1,-1) ,MidiNote(50,  1,-1),MidiNote(49,0,-1),MidiNote(51,  1,-1),MidiNote(57,  1,-1),MidiNote(49,127,-1)],
+            [MidiNote(49,127,-1) ,MidiNote(53,127,-1),MidiNote(55,127,-1),MidiNote(56,127,-1),MidiNote(52,127,-1),MidiNote(49,127,-1)],
+            [MidiNote(37,127,-1) ,MidiNote(41,127,-1),MidiNote(43,127,-1),MidiNote(44,127,-1),MidiNote(40,127,-1),MidiNote(49,127,-1)],
+            [MidiNote(49,  1,-1) ,MidiNote(53,  1,-1),MidiNote(55,  1,-1),MidiNote(56,  1,-1),MidiNote(52,  1,-1),MidiNote(49,127,-1)],
+            [MidiNote(37,  1,-1) ,MidiNote(41,  1,-1),MidiNote(43,  1,-1),MidiNote(44,  1,-1),MidiNote(40,  1,-1),MidiNote(49,127,-1)]],
             
-            [[MidiNote(49,127,1) ,MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1)],
-            [MidiNote(49,127,1) ,MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1)],
-            [MidiNote(49,127,1) ,MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1)],
-            [MidiNote(49,127,1) ,MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1)],
-            [MidiNote(49,127,1) ,MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1)],
-            [MidiNote(49,127,1) ,MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1)],
-            [MidiNote(49,127,1) ,MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1)],
-            [MidiNote(49,127,1) ,MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1)]],
+            [[MidiNote(49,127,-1) ,MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1)],
+            [MidiNote(49,127,-1) ,MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1)],
+            [MidiNote(49,127,-1) ,MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1)],
+            [MidiNote(49,127,-1) ,MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1)],
+            [MidiNote(49,127,-1) ,MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1)],
+            [MidiNote(49,127,-1) ,MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1)],
+            [MidiNote(49,127,-1) ,MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1)],
+            [MidiNote(49,127,-1) ,MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1)]],
             
-            [[MidiNote(49,127,1) ,MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1)],
-            [MidiNote(49,127,1) ,MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1)],
-            [MidiNote(49,127,1) ,MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1)],
-            [MidiNote(49,127,1) ,MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1)],
-            [MidiNote(49,127,1) ,MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1)],
-            [MidiNote(49,127,1) ,MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1)],
-            [MidiNote(49,127,1) ,MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1)],
-            [MidiNote(49,127,1) ,MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1),MidiNote(49,127,1)]]
+            [[MidiNote(49,127,-1) ,MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1)],
+            [MidiNote(49,127,-1) ,MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1)],
+            [MidiNote(49,127,-1) ,MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1)],
+            [MidiNote(49,127,-1) ,MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1)],
+            [MidiNote(49,127,-1) ,MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1)],
+            [MidiNote(49,127,-1) ,MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1)],
+            [MidiNote(49,127,-1) ,MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1)],
+            [MidiNote(49,127,-1) ,MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1),MidiNote(49,127,-1)]]
             
         ]
 
@@ -157,11 +164,17 @@ def KeypadRead(cols,rows):
         for y in range(0, COL_NUMBER):
             key_state_old[x][y] = key_state[x][y]
 
+def midi_channel_read():
+    global enc_midi_0, enc_midi_1,enc_midi_2, enc_midi_3
+    global global_midi_channel
+    global_midi_channel = ((1- enc_midi_0.value())+2*(1- enc_midi_1.value())+4*(1- enc_midi_2.value())+8*(1- enc_midi_3.value()) + 1)
+    #print(global_midi_channel)      
 
 try:    
     time.sleep(0.5)
     while True:      
         key=KeypadRead(col_list, row_list)
+        midi_channel_read()
      
 except Exception as e:
     print(e)
